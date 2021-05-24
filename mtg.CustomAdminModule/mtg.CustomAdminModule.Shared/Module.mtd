@@ -1,0 +1,125 @@
+{
+  "$type": "Sungero.Metadata.ModuleMetadata, Sungero.Metadata",
+  "NameGuid": "9b09e912-117d-4b6f-9eda-9c646a039027",
+  "Name": "CustomAdminModule",
+  "AsyncHandlers": [
+    {
+      "NameGuid": "83d7096f-ae33-483e-8eb9-5ea680c22ce1",
+      "Name": "AsyncMassIssuanceRightsDocuments",
+      "DelayPeriod": 5,
+      "DelayStrategy": "RegularDelayStrategy",
+      "IsHandlerGenerated": true,
+      "Parameters": [
+        {
+          "NameGuid": "50166495-c59b-4cf4-81e8-699a0d2c71ad",
+          "Name": "MassIssuRightBookId",
+          "ParameterType": "Integer"
+        }
+      ]
+    }
+  ],
+  "ClientAssemblyName": "mtg.CustomAdminModule.Client",
+  "ClientBaseAssemblyName": "mtg.CustomAdminModule.ClientBase",
+  "ClientBaseNamespace": "mtg.CustomAdminModule.ClientBase",
+  "ClientNamespace": "mtg.CustomAdminModule.Client",
+  "Code": "CustAdm",
+  "CompanyCode": "mtg",
+  "Cover": {
+    "NameGuid": "ed2917df-8f45-44aa-8356-f73fb59f00ad",
+    "Actions": [
+      {
+        "$type": "Sungero.Metadata.CoverFunctionActionMetadata, Sungero.Metadata",
+        "NameGuid": "538c00ef-f04d-42b0-aa49-0e4c918c730b",
+        "Name": "MassIssuanceRightsDocuments",
+        "FunctionName": "MassIssuanceRightsDocuments",
+        "GroupId": "24e7352b-daf5-474a-b94d-f26b2da81845"
+      }
+    ],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "e2cdb4ac-47d5-49c5-bba6-6bebd9f44e52",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [
+      {
+        "NameGuid": "24e7352b-daf5-474a-b94d-f26b2da81845",
+        "Name": "WorkingWithRights",
+        "BackgroundPosition": "Stretch",
+        "IconName": "GroupIconGroup_24e7352bdaf5474ab94df26b2da81845.png"
+      }
+    ],
+    "Header": {
+      "NameGuid": "cb6df98b-831a-42e1-8292-2fa38c900e1f",
+      "BackgroundPosition": "Stretch",
+      "IconName": "HeaderIcon_cb6df98b831a42e182922fa38c900e1f.png"
+    }
+  },
+  "Dependencies": [
+    {
+      "Id": "44479741-ef20-4447-bbba-482db327d2c2",
+      "IsSolutionModule": true,
+      "MaxVersion": "",
+      "MinVersion": ""
+    },
+    {
+      "Id": "ec7b606a-21ee-4f16-aba8-ab8c2af76d12",
+      "MaxVersion": "",
+      "MinVersion": "0.0.1.0"
+    }
+  ],
+  "ExplorerTreeOrder": [
+    {
+      "ItemId": "562d78c0-479e-4585-84ad-2ad235a71f5f"
+    }
+  ],
+  "HandledEvents": [
+    "InitializingServer"
+  ],
+  "IconResourcesKeys": [],
+  "Importance": "Medium",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "mtg.CustomAdminModule",
+  "PublicFunctions": [
+    {
+      "Name": "CreatMassIssuance",
+      "ReturnType": "global::mtg.CustomAdminModule.IMassIssuanceRightDocument",
+      "ReturnTypeFullName": "mtg.CustomAdminModule.IMassIssuanceRightDocument, Sungero.Domain.Interfaces"
+    }
+  ],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "mtg.CustomAdminModule",
+  "ResourcesKeys": [
+    "MassIssue",
+    "Folder",
+    "SubjectsRights",
+    "TypeRights",
+    "View",
+    "Change",
+    "FullAccess",
+    "LeaveMorePrivilegedRights",
+    "HandleSubfolders",
+    "GrantRightsFolders",
+    "GrantRightsDocuments",
+    "ErrorMessageNoEntity",
+    "InformMessageAfterStart",
+    "MessageResult"
+  ],
+  "ServerAssemblyName": "mtg.CustomAdminModule.Server",
+  "ServerNamespace": "mtg.CustomAdminModule.Server",
+  "SharedAssemblyName": "mtg.CustomAdminModule.Shared",
+  "SharedNamespace": "mtg.CustomAdminModule.Shared",
+  "SpecialFolders": [],
+  "Version": "0.0.1.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "ModuleMetadata",
+      "Number": 6
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}

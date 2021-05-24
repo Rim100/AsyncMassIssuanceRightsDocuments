@@ -1,0 +1,64 @@
+{
+  "$type": "Sungero.Metadata.SolutionMetadata, Sungero.Metadata",
+  "NameGuid": "44479741-ef20-4447-bbba-482db327d2c2",
+  "Name": "AdminFeatures",
+  "AsyncHandlers": [],
+  "ClientAssemblyName": "mtg.AdminFeatures.Client",
+  "ClientBaseAssemblyName": "mtg.AdminFeatures.ClientBase",
+  "ClientBaseNamespace": "mtg.AdminFeatures.ClientBase",
+  "ClientNamespace": "mtg.AdminFeatures.Client",
+  "Code": "AdminFe",
+  "CompanyCode": "mtg",
+  "Cover": {
+    "NameGuid": "a441b779-f6cc-4bcc-85ea-0ec9c0b4dda2",
+    "Actions": [],
+    "Background": null,
+    "Footer": {
+      "NameGuid": "64577451-2509-4740-9a33-b522da44a71a",
+      "BackgroundPosition": "Stretch"
+    },
+    "Groups": [],
+    "Header": {
+      "NameGuid": "3980f9a1-6324-466c-a076-a37e498a5313",
+      "BackgroundPosition": "Stretch"
+    }
+  },
+  "Dependencies": [
+    {
+      "Id": "ec7b606a-21ee-4f16-aba8-ab8c2af76d12",
+      "MaxVersion": "",
+      "MinVersion": "0.0.1.0"
+    }
+  ],
+  "DesktopViews": [],
+  "IconResourcesKeys": [],
+  "Importance": "Medium",
+  "InterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "InterfaceNamespace": "mtg.AdminFeatures",
+  "OrderedSpecialFolders": [],
+  "PublicStructures": [],
+  "ResourceInterfaceAssemblyName": "Sungero.Domain.Interfaces",
+  "ResourceInterfaceNamespace": "mtg.AdminFeatures",
+  "ResourcesKeys": [],
+  "ServerAssemblyName": "mtg.AdminFeatures.Server",
+  "ServerNamespace": "mtg.AdminFeatures.Server",
+  "SharedAssemblyName": "mtg.AdminFeatures.Shared",
+  "SharedNamespace": "mtg.AdminFeatures.Shared",
+  "SpecialFolders": [],
+  "Version": "0.0.1.0",
+  "Widgets": [],
+  "Versions": [
+    {
+      "Type": "SolutionMetadata",
+      "Number": 6
+    },
+    {
+      "Type": "ModuleMetadata",
+      "Number": 6
+    },
+    {
+      "Type": "DomainApi",
+      "Number": 3
+    }
+  ]
+}

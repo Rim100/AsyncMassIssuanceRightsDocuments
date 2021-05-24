@@ -1,0 +1,48 @@
+# This file is a template, and might need editing before it works on your project.
+# see https://docs.gitlab.com/ce/ci/yaml/README.html for all available options
+#newcommentline now from command line
+# you can delete this line if you're not using Docker
+#image: busybox:latest#
+
+#before_script: 
+#  - echo "Before script section"
+#  - echo "For example you might run an update here or install a build dependency"
+#  - echo "Or perhaps you might print out some debugging details"
+#  - Get-Process
+before_script:
+  - "[Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding('windows-1251')"
+   
+#after_script:
+#  - echo "After script section"
+#  - echo "For example you might do some cleanup here"
+   
+stages: 
+  - update
+  - build
+  - deploy
+  
+
+update: 
+  stage: update
+  script:
+    - Write-Host "Git pull for SDS"
+    - Set-Location C:\DevStudioRX\drxcustommtg
+    - git pull
+
+build:
+  stage: build
+  script:
+    - Write-Host "Dev package building"
+    - Start-Process -FilePath "C:\Program Files\Directum Company\Sungero Development Studio\Bin\DevelopmentStudio.exe" -ArgumentList "-c C:\DevStudioRX\drxcustommtg\dev_build.xml -d C:\DevStudioRX\DEVPACK\dev_build.dat" -Wait
+    - Set-Location C:\DevStudioRX\drxcustommtg
+    - git reset --hard HEAD
+    
+deploy:
+  stage: deploy
+  script:
+    - Write-Host "Deployment"
+    - Remove-Item "$env:LOCALAPPDATA\Directum Company\DirectumRX\Utilities\Logs\dt.log" -ErrorAction Ignore
+    - Start-Process -FilePath "C:\Program Files\Directum Company\DirectumRX\Utilities\DeploymentTool\DeploymentTool.exe" -ArgumentList "-x -d C:\DevStudioRX\DEVPACK\dev_build.dat -n administrator -p 1Qwertyu" -Wait
+    - Get-Content -Path "$env:LOCALAPPDATA\Directum Company\DirectumRX\Utilities\Logs\dt.log" -Raw -ErrorAction Ignore
+  environment:
+    name: dev_build
