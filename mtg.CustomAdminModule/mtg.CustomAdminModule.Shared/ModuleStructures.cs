@@ -17,7 +17,9 @@ namespace mtg.CustomAdminModule.Structures.Module
         
         public int DocsCount {get; set;}
         
-        public List<int> ProcessedEntitiesId {get; set;}
+        public List<int> ProcessedFolderEntitiesId {get; set;}
+        
+        public List<int> ProcessedDocEntitiesId {get; set;} 
         
         public Sungero.CoreEntities.IAccessRights RightType {get; set;}
         

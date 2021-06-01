@@ -14,6 +14,8 @@ namespace mtg.CustomAdminModule.Server
         {
             // Сбор информация о выполнении.
             var issuanceRightsInfo = Structures.Module.AsyncIssuanceRightsInfo.Create();
+            issuanceRightsInfo.ProcessedFolderEntitiesId = new List<int>();
+            issuanceRightsInfo.ProcessedDocEntitiesId = new List<int>();
             
             var settings = MassIssuanceRightDocuments.Get(args.MassIssuRightBookId);
             
@@ -30,8 +32,7 @@ namespace mtg.CustomAdminModule.Server
             {
                 // Выдать права на основную папку
                 SafeExecute(() => AddRightToEntity(folder, settings.LeaveMorePrivilegedRights.Value, recipient, typeRight), issuanceRightsInfo);
-                issuanceRightsInfo.ProcessedEntitiesId = new List<int>();
-                issuanceRightsInfo.ProcessedEntitiesId.Add(folder.Id);
+                issuanceRightsInfo.ProcessedFolderEntitiesId.Add(folder.Id);
                 issuanceRightsInfo.FoldersCount++;
             }
             
@@ -78,14 +79,20 @@ namespace mtg.CustomAdminModule.Server
         {
             foreach (var entity in entities)
             {
+                var folder = Sungero.CoreEntities.Folders.As(entity);
+                var document = Sungero.Content.ElectronicDocuments.As(entity);
+                
                 // Защита от рекурсии + не обрабатываем entity повторно
-                if (info.ProcessedEntitiesId.Contains(entity.Id))
+                if (folder != null && info.ProcessedFolderEntitiesId.Contains(entity.Id))
                 {
                     continue;
                 }
                 
-                var folder = Sungero.CoreEntities.Folders.As(entity);
-                var document = Sungero.Content.ElectronicDocuments.As(entity);
+                if (document != null && info.ProcessedDocEntitiesId.Contains(entity.Id))
+                {
+                    continue;
+                }
+                 
                 
                 if (folder == null && document == null)
                     continue;
@@ -101,13 +108,15 @@ namespace mtg.CustomAdminModule.Server
                 if (folder != null)
                 {
                     info.FoldersCount++;
+                    info.ProcessedFolderEntitiesId.Add(entity.Id);
                 }
                 else
                 {
                     info.DocsCount++;
+                    info.ProcessedDocEntitiesId.Add(entity.Id);
                 }
                 
-                info.ProcessedEntitiesId.Add(entity.Id);
+                
                 
                 if (folder != null && processingSubFolders)
                 {
