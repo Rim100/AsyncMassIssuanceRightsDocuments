@@ -45,24 +45,7 @@ namespace mtg.CustomAdminModule.Server
             settings.Result = mtg.CustomAdminModule.Resources.MessageResultFormat(issuanceRightsInfo.DocsCount, issuanceRightsInfo.FoldersCount, issuanceRightsInfo.ErrorsCount);
             
             settings.Save();
-        }
-        
-        /// <summary>
-        /// Безопасное выполнение.
-        /// </summary>
-        /// <param name="action">Action</param>
-        private static void SafeExecute(Action action, Structures.Module.AsyncIssuanceRightsInfo info)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Logger.ErrorFormat("AsyncMassRightsError {0}", ex);
-                info.ErrorsCount++;
-            }
-        }
+        }        
         
         
         /// <summary>
@@ -92,7 +75,7 @@ namespace mtg.CustomAdminModule.Server
                 {
                     continue;
                 }
-                 
+                
                 
                 if (folder == null && document == null)
                     continue;
