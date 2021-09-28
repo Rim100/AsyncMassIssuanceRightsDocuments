@@ -31,13 +31,13 @@ namespace mtg.CustomAdminModule.Server
             foreach(var recipient in recipients)
             {
                 // Выдать права на основную папку
-                SafeExecute(() => AddRightToEntity(folder, settings.LeaveMorePrivilegedRights.Value, recipient, typeRight), issuanceRightsInfo);
+                AddRightToEntity(folder, settings.LeaveMorePrivilegedRights.Value, recipient, typeRight);
                 issuanceRightsInfo.ProcessedFolderEntitiesId.Add(folder.Id);
                 issuanceRightsInfo.FoldersCount++;
             }
             
             
-            SafeExecute(() => AddRightToFolderEntities(folder.Items, typeRight, recipients, settings.GrantRightsFolders.Value, settings.GrantRightsDocuments.Value, settings.ProcessingSubfolders.Value, settings.LeaveMorePrivilegedRights.Value, issuanceRightsInfo), issuanceRightsInfo);
+            AddRightToFolderEntities(folder.Items, typeRight, recipients, settings.GrantRightsFolders.Value, settings.GrantRightsDocuments.Value, settings.ProcessingSubfolders.Value, settings.LeaveMorePrivilegedRights.Value, issuanceRightsInfo);
             
             Logger.DebugFormat("End MassIssuanceRightDocuments Id - {0}", settings.Id);
             
@@ -45,18 +45,18 @@ namespace mtg.CustomAdminModule.Server
             settings.Result = mtg.CustomAdminModule.Resources.MessageResultFormat(issuanceRightsInfo.DocsCount, issuanceRightsInfo.FoldersCount, issuanceRightsInfo.ErrorsCount);
             
             settings.Save();
-        }        
+        }
         
         
         /// <summary>
         /// Выдать права на коллекцию сущностей, только на папки и документы.
         /// </summary>
-        /// <param name="entities">Содерживое папки</param>
-        /// <param name="rightType">Тип Прав</param>
-        /// <param name="grantRightsFolders">true - выдать права на вложенные папки, false - нет</param>
-        /// <param name="grantRightsDocuments">true - выдать права на вложенные документы, false - нет</param>
-        /// <param name="processingSubFolders">true - обработать вложенные папки, false - нет</param>
-        /// <param name="leaveMorePrivilegedRights">true - оставить более привелигированные права</param>
+        /// <param name="entities">Содерживое папки.</param>
+        /// <param name="rightType">Тип Прав.</param>
+        /// <param name="grantRightsFolders">true - выдать права на вложенные папки, false - нет.</param>
+        /// <param name="grantRightsDocuments">true - выдать права на вложенные документы, false - нет.</param>
+        /// <param name="processingSubFolders">true - обработать вложенные папки, false - нет.</param>
+        /// <param name="leaveMorePrivilegedRights">true - оставить более привелигированные права.</param>
         /// <param name="info">AsyncIssuanceRightsInfo</param>
         private static void AddRightToFolderEntities(ICollection<Sungero.Domain.Shared.IEntity> entities, System.Guid rightType, IEnumerable<IRecipient> recipients, bool grantRightsFolders, bool grantRightsDocuments, bool processingSubFolders , bool leaveMorePrivilegedRights, Structures.Module.AsyncIssuanceRightsInfo info)
         {
@@ -65,27 +65,22 @@ namespace mtg.CustomAdminModule.Server
                 var folder = Sungero.CoreEntities.Folders.As(entity);
                 var document = Sungero.Content.ElectronicDocuments.As(entity);
                 
-                // Защита от рекурсии + не обрабатываем entity повторно
-                if (folder != null && info.ProcessedFolderEntitiesId.Contains(entity.Id))
-                {
-                    continue;
-                }
-                
-                if (document != null && info.ProcessedDocEntitiesId.Contains(entity.Id))
-                {
-                    continue;
-                }
-                
-                
                 if (folder == null && document == null)
                     continue;
                 
                 if ((folder != null && !grantRightsFolders) || (document != null && !grantRightsDocuments))
                     continue;
                 
+                // Защита от рекурсии + не обрабатываем entity повторно.
+                if (folder != null && info.ProcessedFolderEntitiesId.Contains(entity.Id))
+                    continue;
+                
+                if (document != null && info.ProcessedDocEntitiesId.Contains(entity.Id))
+                    continue;                
+                
                 foreach (var recipient in recipients)
                 {
-                    SafeExecute(()=> AddRightToEntity(entity, leaveMorePrivilegedRights, recipient, rightType), info);
+                    AddRightToEntity(entity, leaveMorePrivilegedRights, recipient, rightType);
                 }
                 
                 if (folder != null)
@@ -99,11 +94,9 @@ namespace mtg.CustomAdminModule.Server
                     info.ProcessedDocEntitiesId.Add(entity.Id);
                 }
                 
-                
-                
                 if (folder != null && processingSubFolders)
                 {
-                    SafeExecute(()=> AddRightToFolderEntities(folder.Items, rightType, recipients, grantRightsFolders, grantRightsDocuments, processingSubFolders, leaveMorePrivilegedRights, info), info);
+                    AddRightToFolderEntities(folder.Items, rightType, recipients, grantRightsFolders, grantRightsDocuments, processingSubFolders, leaveMorePrivilegedRights, info);
                 }
             }
         }
@@ -111,10 +104,10 @@ namespace mtg.CustomAdminModule.Server
         /// <summary>
         /// Выдать права субъекту прав.
         /// </summary>
-        /// <param name="entity">Сущность</param>
-        /// <param name="removeOldRights">true - удалить, false - оставить</param>
-        /// <param name="recipient">Субъект прав</param>
-        /// <param name="rightType">Тип прав</param>
+        /// <param name="entity">Сущность.</param>
+        /// <param name="removeOldRights">true - удалить, false - оставить.</param>
+        /// <param name="recipient">Субъект прав.</param>
+        /// <param name="rightType">Тип прав.</param>
         private static void AddRightToEntity(Sungero.Domain.Shared.IEntity entity, bool leaveMorePrivilegedRights, IRecipient recipient, System.Guid rightType)
         {
             if(!leaveMorePrivilegedRights)
@@ -125,13 +118,12 @@ namespace mtg.CustomAdminModule.Server
             
             entity.AccessRights.Grant(recipient, rightType);
             entity.AccessRights.Save();
-            
         }
         
         /// <summary>
         /// Направить уведомление Администраторам об резальтаты работы AsyncMassIssuanceRightsDocuments.
         /// </summary>
-        /// <param name="processedInfo">AsyncIssuanceRightsInfo</param>
+        /// <param name="processedInfo">AsyncIssuanceRightsInfo.</param>
         private static void SendNoteToAdministrators(Structures.Module.AsyncIssuanceRightsInfo processedInfo)
         {
             

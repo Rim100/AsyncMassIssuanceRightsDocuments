@@ -10,9 +10,8 @@ namespace mtg.CustomAdminModule.Client
     partial class MassIssuanceRightDocumentActions
     {
         public virtual void StartProcessing(Sungero.Domain.Client.ExecuteActionArgs e)
-        {
-            _obj.Save();
-            
+        {           
+            e.Validate();
             _obj.Status = CustomAdminModule.MassIssuanceRightDocument.Status.Processing;
             _obj.Save();
             

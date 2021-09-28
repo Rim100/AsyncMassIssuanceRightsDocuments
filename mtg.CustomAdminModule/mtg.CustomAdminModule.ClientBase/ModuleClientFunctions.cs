@@ -8,7 +8,6 @@ namespace mtg.CustomAdminModule.Client
 {
     public class ModuleFunctions
     {
-
         /// <summary>
         /// Массовая выдача прав на документы.
         /// </summary>
@@ -16,6 +15,5 @@ namespace mtg.CustomAdminModule.Client
         {
             CustomAdminModule.PublicFunctions.Module.CreatMassIssuance().Show();
         }
-
     }
 }

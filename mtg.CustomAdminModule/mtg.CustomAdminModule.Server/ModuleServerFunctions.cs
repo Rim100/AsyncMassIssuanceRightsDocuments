@@ -11,7 +11,7 @@ namespace mtg.CustomAdminModule.Server
         /// <summary>
         /// Создать запись выдачи прав.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Запись справочника.</returns>
         [Public]
         public static IMassIssuanceRightDocument CreatMassIssuance()
         {

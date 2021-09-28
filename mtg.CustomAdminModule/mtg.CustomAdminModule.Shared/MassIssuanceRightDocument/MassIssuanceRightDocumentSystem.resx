@@ -142,7 +142,7 @@
     <value>Change</value>
   </data>
   <data name="Enum_RightType_FullAccess" xml:space="preserve">
-    <value>ыFull Access</value>
+    <value>Full Access</value>
   </data>
   <data name="Property_RecipientsCollection" xml:space="preserve">
     <value>Субъекты прав</value>
