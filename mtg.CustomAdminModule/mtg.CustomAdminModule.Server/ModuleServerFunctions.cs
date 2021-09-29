@@ -9,13 +9,32 @@ namespace mtg.CustomAdminModule.Server
     public class ModuleFunctions
     {
         /// <summary>
-        /// Создать запись выдачи прав.
+        /// Получить все объекты IRecipient.
         /// </summary>
-        /// <returns>Запись справочника.</returns>
-        [Public]
-        public static IMassIssuanceRightDocument CreatMassIssuance()
+        /// <returns>Все объекты IRecipient в виде запроса.</returns>
+        [Remote(IsPure = true)]
+        public IQueryable<IRecipient> GetAllRecipients()
         {
-            return CustomAdminModule.MassIssuanceRightDocuments.Create();
+            return Sungero.CoreEntities.Recipients.GetAll();
+        }
+        
+        /// <summary>
+        /// Получить все не системные папки.
+        /// </summary>
+        /// <returns>Все объекты IFolder в виде запроса.</returns>
+        [Remote(IsPure = true)]
+        public IQueryable<IFolder> GetAllNoSysFolders()
+        {
+            return Folders.GetAll(x => x.IsSpecial == false);
+        }
+        
+        /// <summary>
+        /// Направить уведомление Администраторам об резальтаты работы AsyncMassIssuanceRightsDocuments.
+        /// </summary>
+        /// <param name="processedInfo">AsyncIssuanceRightsInfo.</param>
+        private static void SendNoteToAdministrators(Structures.Module.AsyncIssuanceRightsInfo processedInfo, string userID)
+        {
+           
         }
     }
 }

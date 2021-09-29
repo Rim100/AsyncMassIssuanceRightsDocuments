@@ -133,32 +133,38 @@
     <value>View</value>
   </data>
   <data name="Change" xml:space="preserve">
-    <value>The change</value>
+    <value>Change</value>
   </data>
   <data name="FullAccess" xml:space="preserve">
     <value>Full access</value>
   </data>
   <data name="LeaveMorePrivilegedRights" xml:space="preserve">
-    <value>Leave more privileged rights?</value>
+    <value>Leave more privileged rights</value>
   </data>
   <data name="HandleSubfolders" xml:space="preserve">
-    <value>Handle subfolders?</value>
+    <value>Handle subfolders</value>
   </data>
   <data name="GrantRightsFolders" xml:space="preserve">
-    <value>Grant folder permissions?</value>
+    <value>Grant folder permissions</value>
   </data>
   <data name="GrantRightsDocuments" xml:space="preserve">
-    <value>Grant rights to documents?</value>
+    <value>Grant rights to documents</value>
   </data>
   <data name="ErrorMessageNoEntity" xml:space="preserve">
     <value>At least one "Role" or "User" must be selected</value>
   </data>
   <data name="InformMessageAfterStart" xml:space="preserve">
-    <value>Processing is in progress. Open the card later.</value>
+    <value>Processing has started. Upon completion, you will receive a notification.</value>
   </data>
   <data name="MessageResult" xml:space="preserve">
     <value>Processed documents: {0}
 Processed Folders: {1}
 Number of mistakes: {2}</value>
+  </data>
+  <data name="SelectSubjectsRights" xml:space="preserve">
+    <value>Select subjects of rights</value>
+  </data>
+  <data name="TitleGrantingFolder" xml:space="preserve">
+    <value>Granting rights to a folder and its contents</value>
   </data>
 </root>

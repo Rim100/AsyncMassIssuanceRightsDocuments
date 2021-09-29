@@ -11,9 +11,39 @@
       "IsHandlerGenerated": true,
       "Parameters": [
         {
-          "NameGuid": "50166495-c59b-4cf4-81e8-699a0d2c71ad",
-          "Name": "MassIssuRightBookId",
+          "NameGuid": "12e7cbc7-c83c-40b1-83a6-f1731f2e8786",
+          "Name": "Folder",
           "ParameterType": "Integer"
+        },
+        {
+          "NameGuid": "3a0a34f8-6c3d-457a-a6c5-ebdd66f0b657",
+          "Name": "GrantRightsFolders",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "806b6382-4dbf-46c1-b44e-4622cdb81543",
+          "Name": "LeaveMorePrivilegedRights",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "815b4efb-7bf6-47ea-b3b5-9e7b0295571b",
+          "Name": "ProcessingSubfolders",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "87793388-8b85-4ec5-b8f3-baab81db7230",
+          "Name": "GrantRightsDocuments",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "9d2390d6-6b03-443f-82c2-cbf26f54cda1",
+          "Name": "RightTypeGuid",
+          "ParameterType": "String"
+        },
+        {
+          "NameGuid": "e5be3eed-bb30-4a31-8b0b-6ee66710dca6",
+          "Name": "SubjectsRights",
+          "ParameterType": "String"
         }
       ]
     }
@@ -81,9 +111,10 @@
   "InterfaceNamespace": "mtg.CustomAdminModule",
   "PublicFunctions": [
     {
-      "Name": "CreatMassIssuance",
-      "ReturnType": "global::mtg.CustomAdminModule.IMassIssuanceRightDocument",
-      "ReturnTypeFullName": "mtg.CustomAdminModule.IMassIssuanceRightDocument, Sungero.Domain.Interfaces"
+      "Name": "MassIssuanceRights",
+      "Placement": "Client",
+      "ReturnType": "void",
+      "ReturnTypeFullName": "System.Void"
     }
   ],
   "PublicStructures": [],
@@ -103,7 +134,9 @@
     "GrantRightsDocuments",
     "ErrorMessageNoEntity",
     "InformMessageAfterStart",
-    "MessageResult"
+    "MessageResult",
+    "SelectSubjectsRights",
+    "TitleGrantingFolder"
   ],
   "ServerAssemblyName": "mtg.CustomAdminModule.Server",
   "ServerNamespace": "mtg.CustomAdminModule.Server",

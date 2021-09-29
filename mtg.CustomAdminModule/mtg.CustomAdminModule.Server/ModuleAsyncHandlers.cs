@@ -14,38 +14,36 @@ namespace mtg.CustomAdminModule.Server
         {
             // Сбор информация о выполнении.
             var issuanceRightsInfo = Structures.Module.AsyncIssuanceRightsInfo.Create();
-            issuanceRightsInfo.ProcessedFolderEntitiesId = new List<int>();
-            issuanceRightsInfo.ProcessedDocEntitiesId = new List<int>();
+            issuanceRightsInfo.ProcessedFoldersId = new List<int>();
+            issuanceRightsInfo.ProcessedDocsId = new List<int>();
             
-            var settings = MassIssuanceRightDocuments.Get(args.MassIssuRightBookId);
+            var folder = Sungero.CoreEntities.Folders.Get(args.Folder);
             
-            var folder = settings.Folder;
+            var recipientsId = args.SubjectsRights.Split(';').Select(x => int.Parse(x)).ToList();
             
-            var recipients = settings.RecipientsCollection.Select(r => r.RecipientChildProp);
+            var recipients = Sungero.CoreEntities.Recipients.GetAll(x => recipientsId.Contains(x.Id));
             
-            var typeRight = settings.RightType == CustomAdminModule.MassIssuanceRightDocument.RightType.Change ? DefaultAccessRightsTypes.Change :
-                (settings.RightType == CustomAdminModule.MassIssuanceRightDocument.RightType.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
+            var typeRight = Guid.Parse(args.RightTypeGuid);
             
-            Logger.DebugFormat("Start MassIssuanceRightDocuments Id - {0}", settings.Id);
+            Logger.DebugFormat("Start MassIssuanceRightDocuments for folder, Id - {0}", args.Folder);
             
             foreach(var recipient in recipients)
             {
-                // Выдать права на основную папку
-                AddRightToEntity(folder, settings.LeaveMorePrivilegedRights.Value, recipient, typeRight);
-                issuanceRightsInfo.ProcessedFolderEntitiesId.Add(folder.Id);
+                // Выдать права на основную папку.
+                AddRightToEntity(folder, args.LeaveMorePrivilegedRights, recipient, typeRight);
+                issuanceRightsInfo.ProcessedFoldersId.Add(folder.Id);
                 issuanceRightsInfo.FoldersCount++;
             }
             
             
-            AddRightToFolderEntities(folder.Items, typeRight, recipients, settings.GrantRightsFolders.Value, settings.GrantRightsDocuments.Value, settings.ProcessingSubfolders.Value, settings.LeaveMorePrivilegedRights.Value, issuanceRightsInfo);
+            AddRightToFolderEntities(folder.Items, typeRight, recipients, args.GrantRightsFolders, args.GrantRightsDocuments, args.ProcessingSubfolders, args.LeaveMorePrivilegedRights, issuanceRightsInfo);
             
-            Logger.DebugFormat("End MassIssuanceRightDocuments Id - {0}", settings.Id);
+            Logger.DebugFormat("End MassIssuanceRightDocuments for folder, Id - {0}", args.Folder);
             
-            settings.Status = CustomAdminModule.MassIssuanceRightDocument.Status.Processed;
-            settings.Result = mtg.CustomAdminModule.Resources.MessageResultFormat(issuanceRightsInfo.DocsCount, issuanceRightsInfo.FoldersCount, issuanceRightsInfo.ErrorsCount);
-            
-            settings.Save();
+
         }
+        
+        
         
         
         /// <summary>
@@ -72,11 +70,11 @@ namespace mtg.CustomAdminModule.Server
                     continue;
                 
                 // Защита от рекурсии + не обрабатываем entity повторно.
-                if (folder != null && info.ProcessedFolderEntitiesId.Contains(entity.Id))
+                if (folder != null && info.ProcessedFoldersId.Contains(entity.Id))
                     continue;
                 
-                if (document != null && info.ProcessedDocEntitiesId.Contains(entity.Id))
-                    continue;                
+                if (document != null && info.ProcessedDocsId.Contains(entity.Id))
+                    continue;
                 
                 foreach (var recipient in recipients)
                 {
@@ -86,12 +84,12 @@ namespace mtg.CustomAdminModule.Server
                 if (folder != null)
                 {
                     info.FoldersCount++;
-                    info.ProcessedFolderEntitiesId.Add(entity.Id);
+                    info.ProcessedFoldersId.Add(entity.Id);
                 }
                 else
                 {
                     info.DocsCount++;
-                    info.ProcessedDocEntitiesId.Add(entity.Id);
+                    info.ProcessedDocsId.Add(entity.Id);
                 }
                 
                 if (folder != null && processingSubFolders)
@@ -120,13 +118,6 @@ namespace mtg.CustomAdminModule.Server
             entity.AccessRights.Save();
         }
         
-        /// <summary>
-        /// Направить уведомление Администраторам об резальтаты работы AsyncMassIssuanceRightsDocuments.
-        /// </summary>
-        /// <param name="processedInfo">AsyncIssuanceRightsInfo.</param>
-        private static void SendNoteToAdministrators(Structures.Module.AsyncIssuanceRightsInfo processedInfo)
-        {
-            
-        }
+        
     }
 }

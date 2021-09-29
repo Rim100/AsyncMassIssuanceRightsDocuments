@@ -13,7 +13,54 @@ namespace mtg.CustomAdminModule.Client
         /// </summary>
         public virtual void MassIssuanceRightsDocuments()
         {
-            CustomAdminModule.PublicFunctions.Module.CreatMassIssuance().Show();
+            MassIssuanceRights();
+        }
+        
+        [Public]
+        /// <summary>
+        /// Массовая выдача прав на папку и содержимое.
+        /// </summary>
+        public static void MassIssuanceRights()
+        {
+            var recipients = Functions.Module.Remote.GetAllRecipients();
+            var folders = Functions.Module.Remote.GetAllNoSysFolders();
+            var members = recipients.ShowSelectMany(mtg.CustomAdminModule.Resources.SelectSubjectsRights);
+            
+            var dialog = Dialogs.CreateInputDialog(mtg.CustomAdminModule.Resources.TitleGrantingFolder);
+            
+            var folder = dialog.AddSelect(mtg.CustomAdminModule.Resources.Folder, true, Sungero.CoreEntities.Folders.Null).From(folders);
+            var subjectsRights = dialog.AddSelectMany(mtg.CustomAdminModule.Resources.SubjectsRights, true, members.ToArray());
+            var typeRights = dialog.AddSelect(Resources.TypeRights, true, string.Empty).From(Resources.View, Resources.Change, Resources.FullAccess);
+
+            var grantRightsFolders = dialog.AddBoolean(Resources.GrantRightsFolders, false);
+            var grantRightsDocuments = dialog.AddBoolean(Resources.GrantRightsDocuments, false);
+            var processingSubfolders = dialog.AddBoolean(Resources.HandleSubfolders, false);
+            var leaveMorePrivilegedRights = dialog.AddBoolean(Resources.LeaveMorePrivilegedRights, false);
+            
+            if (dialog.Show() == DialogButtons.Ok)
+            {
+                
+                var subjectsRightsString = string.Join(";", subjectsRights.Value.Select(x => x.Id));
+                var rightType = typeRights.Value == Resources.Change ? DefaultAccessRightsTypes.Change :
+                    (typeRights.Value == Resources.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
+                
+                var asyncMethod = mtg.CustomAdminModule.AsyncHandlers.AsyncMassIssuanceRightsDocuments.Create();
+                
+                
+                asyncMethod.Folder = folder.Value.Id;
+                asyncMethod.SubjectsRights = subjectsRightsString;
+                asyncMethod.RightTypeGuid = rightType.ToString();
+                
+                asyncMethod.GrantRightsFolders = grantRightsFolders.Value.GetValueOrDefault();
+                asyncMethod.GrantRightsDocuments = grantRightsDocuments.Value.GetValueOrDefault();
+                asyncMethod.ProcessingSubfolders = processingSubfolders.Value.GetValueOrDefault();
+                asyncMethod.LeaveMorePrivilegedRights = leaveMorePrivilegedRights.Value.GetValueOrDefault();
+                
+                asyncMethod.ExecuteAsync();
+                
+                Dialogs.NotifyMessage(mtg.CustomAdminModule.Resources.InformMessageAfterStart);
+            }
+            
         }
     }
 }
