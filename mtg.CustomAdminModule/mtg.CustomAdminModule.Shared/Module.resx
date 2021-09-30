@@ -167,4 +167,34 @@ Number of mistakes: {2}</value>
   <data name="TitleGrantingFolder" xml:space="preserve">
     <value>Granting rights to a folder and its contents</value>
   </data>
+  <data name="IssuanceRightsResultsSubject" xml:space="preserve">
+    <value>Results of granting rights to a folder</value>
+  </data>
+  <data name="TimeStartEnd" xml:space="preserve">
+    <value>Hours: {0} - {1}</value>
+  </data>
+  <data name="RootFolder" xml:space="preserve">
+    <value>Root folder: {0}</value>
+  </data>
+  <data name="FoldersProcessed" xml:space="preserve">
+    <value>Folders processed: {0}</value>
+  </data>
+  <data name="DocumentsProcessed" xml:space="preserve">
+    <value>Documents processed: {0}</value>
+  </data>
+  <data name="ErrorsCount" xml:space="preserve">
+    <value>Errors: {0}</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Results:</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Settings:</value>
+  </data>
+  <data name="SubjectsOfRights" xml:space="preserve">
+    <value>Subjects of rights: {0}</value>
+  </data>
+  <data name="NotifyMessage" xml:space="preserve">
+    <value>Only an administrator can start this action</value>
+  </data>
 </root>

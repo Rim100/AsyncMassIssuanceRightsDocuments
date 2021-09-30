@@ -130,9 +130,12 @@
     <value>Bulk issuance of rights to folder attachments</value>
   </data>
   <data name="CoverDescription_MassIssuanceRightsDocuments" xml:space="preserve">
-    <value>Mass issuance of rights to attachments of a folder with processing of all subfolders.</value>
+    <value>Mass issuance of rights to a folder and its contents with processing of all subfolders.</value>
   </data>
   <data name="AsyncHandler_Description_83d7096fae33483e8eb95ea680c22ce1" xml:space="preserve">
     <value>AsyncMassIssuanceRightsDocuments</value>
+  </data>
+  <data name="sf_ce90f070_bfe5_4967_80ce_cc976f663798" xml:space="preserve">
+    <value>Employee</value>
   </data>
 </root>

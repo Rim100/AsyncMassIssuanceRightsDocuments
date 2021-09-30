@@ -13,13 +13,16 @@ namespace mtg.CustomAdminModule.Client
         /// </summary>
         public virtual void MassIssuanceRightsDocuments()
         {
-            MassIssuanceRights();
+            if (Users.Current.IncludedIn(Roles.Administrators))
+                MassIssuanceRights();
+            else
+                Dialogs.ShowMessage(mtg.CustomAdminModule.Resources.NotifyMessage);
         }
         
-        [Public]
         /// <summary>
         /// Массовая выдача прав на папку и содержимое.
         /// </summary>
+        [Public]
         public static void MassIssuanceRights()
         {
             var recipients = Functions.Module.Remote.GetAllRecipients();
@@ -30,19 +33,19 @@ namespace mtg.CustomAdminModule.Client
             
             var folder = dialog.AddSelect(mtg.CustomAdminModule.Resources.Folder, true, Sungero.CoreEntities.Folders.Null).From(folders);
             var subjectsRights = dialog.AddSelectMany(mtg.CustomAdminModule.Resources.SubjectsRights, true, members.ToArray());
-            var typeRights = dialog.AddSelect(Resources.TypeRights, true, string.Empty).From(Resources.View, Resources.Change, Resources.FullAccess);
+            var typeRights = dialog.AddSelect(mtg.CustomAdminModule.Resources.TypeRights, true, string.Empty).From(Resources.View, Resources.Change, Resources.FullAccess);
 
-            var grantRightsFolders = dialog.AddBoolean(Resources.GrantRightsFolders, false);
-            var grantRightsDocuments = dialog.AddBoolean(Resources.GrantRightsDocuments, false);
-            var processingSubfolders = dialog.AddBoolean(Resources.HandleSubfolders, false);
-            var leaveMorePrivilegedRights = dialog.AddBoolean(Resources.LeaveMorePrivilegedRights, false);
+            var grantRightsFolders = dialog.AddBoolean(mtg.CustomAdminModule.Resources.GrantRightsFolders, false);
+            var grantRightsDocuments = dialog.AddBoolean(mtg.CustomAdminModule.Resources.GrantRightsDocuments, false);
+            var processingSubfolders = dialog.AddBoolean(mtg.CustomAdminModule.Resources.HandleSubfolders, false);
+            var leaveMorePrivilegedRights = dialog.AddBoolean(mtg.CustomAdminModule.Resources.LeaveMorePrivilegedRights, true);
             
             if (dialog.Show() == DialogButtons.Ok)
             {
                 
                 var subjectsRightsString = string.Join(";", subjectsRights.Value.Select(x => x.Id));
-                var rightType = typeRights.Value == Resources.Change ? DefaultAccessRightsTypes.Change :
-                    (typeRights.Value == Resources.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
+                var rightType = typeRights.Value == mtg.CustomAdminModule.Resources.Change ? DefaultAccessRightsTypes.Change :
+                    (typeRights.Value == mtg.CustomAdminModule.Resources.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
                 
                 var asyncMethod = mtg.CustomAdminModule.AsyncHandlers.AsyncMassIssuanceRightsDocuments.Create();
                 
@@ -50,12 +53,13 @@ namespace mtg.CustomAdminModule.Client
                 asyncMethod.Folder = folder.Value.Id;
                 asyncMethod.SubjectsRights = subjectsRightsString;
                 asyncMethod.RightTypeGuid = rightType.ToString();
+                asyncMethod.RightTypeName = typeRights.Value;
                 
                 asyncMethod.GrantRightsFolders = grantRightsFolders.Value.GetValueOrDefault();
                 asyncMethod.GrantRightsDocuments = grantRightsDocuments.Value.GetValueOrDefault();
                 asyncMethod.ProcessingSubfolders = processingSubfolders.Value.GetValueOrDefault();
                 asyncMethod.LeaveMorePrivilegedRights = leaveMorePrivilegedRights.Value.GetValueOrDefault();
-                
+                asyncMethod.InitiatorID = Users.Current.Id;
                 asyncMethod.ExecuteAsync();
                 
                 Dialogs.NotifyMessage(mtg.CustomAdminModule.Resources.InformMessageAfterStart);

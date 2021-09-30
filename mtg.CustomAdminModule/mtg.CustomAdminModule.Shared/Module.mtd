@@ -16,6 +16,11 @@
           "ParameterType": "Integer"
         },
         {
+          "NameGuid": "39dc95b9-28a2-4705-a54a-e2693368438f",
+          "Name": "InitiatorID",
+          "ParameterType": "Integer"
+        },
+        {
           "NameGuid": "3a0a34f8-6c3d-457a-a6c5-ebdd66f0b657",
           "Name": "GrantRightsFolders",
           "ParameterType": "Boolean"
@@ -38,6 +43,11 @@
         {
           "NameGuid": "9d2390d6-6b03-443f-82c2-cbf26f54cda1",
           "Name": "RightTypeGuid",
+          "ParameterType": "String"
+        },
+        {
+          "NameGuid": "b88e3330-d8c9-4a11-bfd4-c0aa376703d3",
+          "Name": "RightTypeName",
           "ParameterType": "String"
         },
         {
@@ -95,11 +105,16 @@
       "Id": "ec7b606a-21ee-4f16-aba8-ab8c2af76d12",
       "MaxVersion": "",
       "MinVersion": "0.0.1.0"
+    },
+    {
+      "Id": "92491aa6-c4df-4f46-a807-ebdd337bda74",
+      "MaxVersion": "",
+      "MinVersion": "1.1.0.0"
     }
   ],
   "ExplorerTreeOrder": [
     {
-      "ItemId": "562d78c0-479e-4585-84ad-2ad235a71f5f"
+      "ItemId": "ce90f070-bfe5-4967-80ce-cc976f663798"
     }
   ],
   "HandledEvents": [
@@ -136,13 +151,38 @@
     "InformMessageAfterStart",
     "MessageResult",
     "SelectSubjectsRights",
-    "TitleGrantingFolder"
+    "TitleGrantingFolder",
+    "IssuanceRightsResultsSubject",
+    "TimeStartEnd",
+    "RootFolder",
+    "FoldersProcessed",
+    "DocumentsProcessed",
+    "ErrorsCount",
+    "Results",
+    "Settings",
+    "SubjectsOfRights",
+    "NotifyMessage"
   ],
   "ServerAssemblyName": "mtg.CustomAdminModule.Server",
   "ServerNamespace": "mtg.CustomAdminModule.Server",
   "SharedAssemblyName": "mtg.CustomAdminModule.Shared",
   "SharedNamespace": "mtg.CustomAdminModule.Shared",
-  "SpecialFolders": [],
+  "SpecialFolders": [
+    {
+      "NameGuid": "ce90f070-bfe5-4967-80ce-cc976f663798",
+      "Name": "Employee",
+      "DefaultContentType": "b7905516-2be5-4931-961c-cb38d5677565",
+      "DisplayType": "Module",
+      "FilterPanel": {
+        "NameGuid": "e52b6e92-8545-4ce1-af74-9e50af2026b8",
+        "Name": "FilterPanel",
+        "Controls": []
+      },
+      "IsShow": true,
+      "Kind": "Computable",
+      "NeedShowMarkedCount": false
+    }
+  ],
   "Version": "0.0.1.0",
   "Widgets": [],
   "Versions": [
