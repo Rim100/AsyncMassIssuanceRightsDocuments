@@ -48,8 +48,7 @@ namespace mtg.CustomAdminModule.Client
                     (typeRights.Value == mtg.CustomAdminModule.Resources.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
                 
                 var asyncMethod = mtg.CustomAdminModule.AsyncHandlers.AsyncMassIssuanceRightsDocuments.Create();
-                
-                
+                                
                 asyncMethod.Folder = folder.Value.Id;
                 asyncMethod.SubjectsRights = subjectsRightsString;
                 asyncMethod.RightTypeGuid = rightType.ToString();

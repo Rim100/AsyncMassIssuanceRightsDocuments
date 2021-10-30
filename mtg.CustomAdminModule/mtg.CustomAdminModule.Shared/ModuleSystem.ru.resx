@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Админские фичи</value>
+    <value>Работа с правами</value>
   </data>
   <data name="CoverTitle" xml:space="preserve">
-    <value>Админские фичи</value>
+    <value>Работа с правами</value>
   </data>
   <data name="CoverGroup_WorkingWithRights" xml:space="preserve">
     <value>Работа с правами</value>
@@ -130,12 +130,15 @@
     <value>Массовая выдача прав на вложения папки</value>
   </data>
   <data name="AsyncHandler_Description_83d7096fae33483e8eb95ea680c22ce1" xml:space="preserve">
-    <value>AsyncHandler</value>
+    <value>Массовая выдача прав на вложения папки</value>
   </data>
   <data name="CoverDescription_MassIssuanceRightsDocuments" xml:space="preserve">
     <value>Массовая выдача прав на папку и ее содержимое с обработкой всех подпапок.</value>
   </data>
   <data name="sf_ce90f070_bfe5_4967_80ce_cc976f663798" xml:space="preserve">
     <value>Сотрудники</value>
+  </data>
+  <data name="CoverDescription" xml:space="preserve">
+    <value>Дополнительные возможности работы с правами</value>
   </data>
 </root>

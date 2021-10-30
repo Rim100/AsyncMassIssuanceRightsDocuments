@@ -90,8 +90,7 @@
     ],
     "Header": {
       "NameGuid": "cb6df98b-831a-42e1-8292-2fa38c900e1f",
-      "BackgroundPosition": "Stretch",
-      "IconName": "HeaderIcon_cb6df98b831a42e182922fa38c900e1f.png"
+      "BackgroundPosition": "Stretch"
     }
   },
   "Dependencies": [

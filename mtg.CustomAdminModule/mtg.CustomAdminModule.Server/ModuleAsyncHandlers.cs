@@ -94,9 +94,7 @@ namespace mtg.CustomAdminModule.Server
         /// Выдать права субъекту прав.
         /// </summary>
         /// <param name="entity">Сущность.</param>
-        /// <param name="removeOldRights">true - удалить, false - оставить.</param>
-        /// <param name="recipient">Субъект прав.</param>
-        /// <param name="rightType">Тип прав.</param>
+        /// <param name="info">Информация о выполнении и параметры обработки.</param>
         private static void AddRightToEntity(Sungero.Domain.Shared.IEntity entity, Structures.Module.AsyncIssuanceRightsInfo info)
         {
             foreach (var recipient in info.SubjectsOfRights)

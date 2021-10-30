@@ -139,7 +139,7 @@
     <value>Полный доступ</value>
   </data>
   <data name="LeaveMorePrivilegedRights" xml:space="preserve">
-    <value>Оставить более привилегированные прав</value>
+    <value>Оставить более привилегированные права</value>
   </data>
   <data name="HandleSubfolders" xml:space="preserve">
     <value>Обрабатывать вложенные папки</value>
