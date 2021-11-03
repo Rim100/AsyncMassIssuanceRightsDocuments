@@ -51,7 +51,7 @@ namespace mtg.CustomAdminModule.Server
         /// <summary>
         /// Выдать права на коллекцию сущностей, только на папки и документы.
         /// </summary>
-        /// <param name="entities">Содерживое папки.</param>
+        /// <param name="entities">Содержимое папки.</param>
         /// <param name="info">Информация о выполнении и параметры обработки.</param>
         private static void AddRightToFolderEntities(ICollection<Sungero.Domain.Shared.IEntity> entities, Structures.Module.AsyncIssuanceRightsInfo info)
         {
@@ -85,7 +85,7 @@ namespace mtg.CustomAdminModule.Server
                 catch (Exception ex)
                 {
                     info.ErrorsCount++;
-                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, message : {2}", entity.Id , info.Guid, ex.Message);
+                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, \nMessage:\n{2}, \nStackTrace:\n{3}", entity.Id , info.Guid, ex.Message, ex.StackTrace);
                 }
             }
         }
@@ -114,7 +114,7 @@ namespace mtg.CustomAdminModule.Server
                 catch (Exception ex)
                 {
                     info.ErrorsCount++;
-                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, message : {2}", entity.Id , info.Guid, ex.Message);
+                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, \nMessage:\n{2}, \nStackTrace:\n{3}", entity.Id , info.Guid, ex.StackTrace);
                 }
             }
         }
