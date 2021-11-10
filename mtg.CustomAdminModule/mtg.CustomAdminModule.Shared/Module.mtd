@@ -11,9 +11,49 @@
       "IsHandlerGenerated": true,
       "Parameters": [
         {
-          "NameGuid": "50166495-c59b-4cf4-81e8-699a0d2c71ad",
-          "Name": "MassIssuRightBookId",
+          "NameGuid": "12e7cbc7-c83c-40b1-83a6-f1731f2e8786",
+          "Name": "Folder",
           "ParameterType": "Integer"
+        },
+        {
+          "NameGuid": "39dc95b9-28a2-4705-a54a-e2693368438f",
+          "Name": "InitiatorID",
+          "ParameterType": "Integer"
+        },
+        {
+          "NameGuid": "3a0a34f8-6c3d-457a-a6c5-ebdd66f0b657",
+          "Name": "GrantRightsFolders",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "806b6382-4dbf-46c1-b44e-4622cdb81543",
+          "Name": "LeaveMorePrivilegedRights",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "815b4efb-7bf6-47ea-b3b5-9e7b0295571b",
+          "Name": "ProcessingSubfolders",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "87793388-8b85-4ec5-b8f3-baab81db7230",
+          "Name": "GrantRightsDocuments",
+          "ParameterType": "Boolean"
+        },
+        {
+          "NameGuid": "9d2390d6-6b03-443f-82c2-cbf26f54cda1",
+          "Name": "RightTypeGuid",
+          "ParameterType": "String"
+        },
+        {
+          "NameGuid": "b88e3330-d8c9-4a11-bfd4-c0aa376703d3",
+          "Name": "RightTypeName",
+          "ParameterType": "String"
+        },
+        {
+          "NameGuid": "e5be3eed-bb30-4a31-8b0b-6ee66710dca6",
+          "Name": "SubjectsRights",
+          "ParameterType": "String"
         }
       ]
     }
@@ -45,13 +85,12 @@
         "NameGuid": "24e7352b-daf5-474a-b94d-f26b2da81845",
         "Name": "WorkingWithRights",
         "BackgroundPosition": "Stretch",
-        "IconName": "GroupIconGroup_24e7352bdaf5474ab94df26b2da81845.png"
+        "IconName": "GroupIconWorkingWithRights_24e7352bdaf5474ab94df26b2da81845.png"
       }
     ],
     "Header": {
       "NameGuid": "cb6df98b-831a-42e1-8292-2fa38c900e1f",
-      "BackgroundPosition": "Stretch",
-      "IconName": "HeaderIcon_cb6df98b831a42e182922fa38c900e1f.png"
+      "BackgroundPosition": "Stretch"
     }
   },
   "Dependencies": [
@@ -65,15 +104,26 @@
       "Id": "ec7b606a-21ee-4f16-aba8-ab8c2af76d12",
       "MaxVersion": "",
       "MinVersion": "0.0.1.0"
+    },
+    {
+      "Id": "92491aa6-c4df-4f46-a807-ebdd337bda74",
+      "MaxVersion": "",
+      "MinVersion": "1.1.0.0"
+    },
+    {
+      "Id": "d8bb255b-db7e-41f3-b1e0-12f9f0348041",
+      "MaxVersion": "",
+      "MinVersion": "0.0.1.0"
     }
   ],
   "ExplorerTreeOrder": [
     {
-      "ItemId": "562d78c0-479e-4585-84ad-2ad235a71f5f"
+      "ItemId": "ce90f070-bfe5-4967-80ce-cc976f663798"
+    },
+    {
+      "ItemId": "c612fc41-44a3-428b-a97c-433c333d78e9",
+      "PreviousItemId": "ce90f070-bfe5-4967-80ce-cc976f663798"
     }
-  ],
-  "HandledEvents": [
-    "InitializingServer"
   ],
   "IconResourcesKeys": [],
   "Importance": "Medium",
@@ -81,9 +131,10 @@
   "InterfaceNamespace": "mtg.CustomAdminModule",
   "PublicFunctions": [
     {
-      "Name": "CreatMassIssuance",
-      "ReturnType": "global::mtg.CustomAdminModule.IMassIssuanceRightDocument",
-      "ReturnTypeFullName": "mtg.CustomAdminModule.IMassIssuanceRightDocument, Sungero.Domain.Interfaces"
+      "Name": "MassIssuanceRights",
+      "Placement": "Client",
+      "ReturnType": "void",
+      "ReturnTypeFullName": "System.Void"
     }
   ],
   "PublicStructures": [],
@@ -103,7 +154,19 @@
     "GrantRightsDocuments",
     "ErrorMessageNoEntity",
     "InformMessageAfterStart",
-    "MessageResult"
+    "MessageResult",
+    "SelectSubjectsRights",
+    "TitleGrantingFolder",
+    "IssuanceRightsResultsSubject",
+    "TimeStartEnd",
+    "RootFolder",
+    "FoldersProcessed",
+    "DocumentsProcessed",
+    "ErrorsCount",
+    "Results",
+    "Settings",
+    "SubjectsOfRights",
+    "NotifyMessage"
   ],
   "ServerAssemblyName": "mtg.CustomAdminModule.Server",
   "ServerNamespace": "mtg.CustomAdminModule.Server",

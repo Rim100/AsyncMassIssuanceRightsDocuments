@@ -118,10 +118,10 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="DisplayName" xml:space="preserve">
-    <value>Admin features</value>
+    <value>Working with rights</value>
   </data>
   <data name="CoverTitle" xml:space="preserve">
-    <value>Admin features</value>
+    <value>Working with rights</value>
   </data>
   <data name="CoverGroup_WorkingWithRights" xml:space="preserve">
     <value>Working with rights</value>
@@ -130,9 +130,12 @@
     <value>Bulk issuance of rights to folder attachments</value>
   </data>
   <data name="CoverDescription_MassIssuanceRightsDocuments" xml:space="preserve">
-    <value>Mass issuance of rights to attachments of a folder with processing of all subfolders.</value>
+    <value>Mass issuance of rights to a folder and its contents with processing of all subfolders.</value>
   </data>
   <data name="AsyncHandler_Description_83d7096fae33483e8eb95ea680c22ce1" xml:space="preserve">
-    <value>AsyncMassIssuanceRightsDocuments</value>
+    <value>Bulk issuance of rights to folder attachments</value>
+  </data>
+  <data name="CoverDescription" xml:space="preserve">
+    <value>Additional options for working with rights</value>
   </data>
 </root>

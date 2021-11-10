@@ -139,26 +139,62 @@
     <value>Полный доступ</value>
   </data>
   <data name="LeaveMorePrivilegedRights" xml:space="preserve">
-    <value>Оставить более привилегированные прав?</value>
+    <value>Оставить более привилегированные права</value>
   </data>
   <data name="HandleSubfolders" xml:space="preserve">
-    <value>Обрабатывать вложенные папки?</value>
+    <value>Обрабатывать вложенные папки</value>
   </data>
   <data name="GrantRightsFolders" xml:space="preserve">
-    <value>Выдать права на папки?</value>
+    <value>Выдать права на папки</value>
   </data>
   <data name="GrantRightsDocuments" xml:space="preserve">
-    <value>Выдать права на документы?</value>
+    <value>Выдать права на документы</value>
   </data>
   <data name="ErrorMessageNoEntity" xml:space="preserve">
     <value>Должна быть выбрана хотя бы одна "Роль" или "Пользователь"</value>
   </data>
   <data name="InformMessageAfterStart" xml:space="preserve">
-    <value>Идет обработка. Откройте карточку позже.</value>
+    <value>Обработка запущена. По окончанию Вам придет уведомление.</value>
   </data>
   <data name="MessageResult" xml:space="preserve">
     <value>Обработано документов: {0}
 Обработано Папок: {1}
 Количество ошибок: {2}</value>
+  </data>
+  <data name="SelectSubjectsRights" xml:space="preserve">
+    <value>Выберите субъекты прав</value>
+  </data>
+  <data name="TitleGrantingFolder" xml:space="preserve">
+    <value>Выдача прав на папку и ее содержимое</value>
+  </data>
+  <data name="IssuanceRightsResultsSubject" xml:space="preserve">
+    <value>Результаты выдачи прав на папку</value>
+  </data>
+  <data name="TimeStartEnd" xml:space="preserve">
+    <value>Время работы: {0} - {1}</value>
+  </data>
+  <data name="RootFolder" xml:space="preserve">
+    <value>Корневая папка: {0}</value>
+  </data>
+  <data name="FoldersProcessed" xml:space="preserve">
+    <value>Обработано папок: {0}</value>
+  </data>
+  <data name="DocumentsProcessed" xml:space="preserve">
+    <value>Обработано документов: {0}</value>
+  </data>
+  <data name="ErrorsCount" xml:space="preserve">
+    <value>Ошибок: {0}</value>
+  </data>
+  <data name="Results" xml:space="preserve">
+    <value>Результаты:</value>
+  </data>
+  <data name="Settings" xml:space="preserve">
+    <value>Настройки:</value>
+  </data>
+  <data name="SubjectsOfRights" xml:space="preserve">
+    <value>Субъекты прав: {0}</value>
+  </data>
+  <data name="NotifyMessage" xml:space="preserve">
+    <value>Только администратор может запустить данное действие</value>
   </data>
 </root>

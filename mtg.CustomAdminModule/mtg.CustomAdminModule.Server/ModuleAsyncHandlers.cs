@@ -13,114 +13,79 @@ namespace mtg.CustomAdminModule.Server
         public virtual void AsyncMassIssuanceRightsDocuments(mtg.CustomAdminModule.Server.AsyncHandlerInvokeArgs.AsyncMassIssuanceRightsDocumentsInvokeArgs args)
         {
             // Сбор информация о выполнении.
-            var issuanceRightsInfo = Structures.Module.AsyncIssuanceRightsInfo.Create();
-            issuanceRightsInfo.ProcessedFolderEntitiesId = new List<int>();
-            issuanceRightsInfo.ProcessedDocEntitiesId = new List<int>();
+            var info = Structures.Module.AsyncIssuanceRightsInfo.Create();
+            info.Guid = Guid.NewGuid();
+            info.InitiatorID = args.InitiatorID;
+            info.StartDateTime = Calendar.Now;
+            info.ProcessedFoldersId = new List<int>();
+            info.ProcessedDocsId = new List<int>();
             
-            var settings = MassIssuanceRightDocuments.Get(args.MassIssuRightBookId);
+            info.MainFolder = Sungero.CoreEntities.Folders.Get(args.Folder);
+            info.RightType = Guid.Parse(args.RightTypeGuid);
+            info.RightTypeName = args.RightTypeName;
             
-            var folder = settings.Folder;
+            var recipientsId = args.SubjectsRights.Split(';').Select(x => int.Parse(x)).ToList();
+            info.SubjectsOfRights = Sungero.CoreEntities.Recipients.GetAll(x => recipientsId.Contains(x.Id));
             
-            var recipients = settings.RecipientsCollection.Select(r => r.RecipientChildProp);
+            info.GrantRightsFolders = args.GrantRightsFolders;
+            info.GrantRightsDocuments = args.GrantRightsDocuments;
+            info.ProcessingSubfolders = args.ProcessingSubfolders;
+            info.LeaveMorePrivilegedRights = args.LeaveMorePrivilegedRights;
             
-            var typeRight = settings.RightType == CustomAdminModule.MassIssuanceRightDocument.RightType.Change ? DefaultAccessRightsTypes.Change :
-                (settings.RightType == CustomAdminModule.MassIssuanceRightDocument.RightType.FullAccess ? DefaultAccessRightsTypes.FullAccess : DefaultAccessRightsTypes.Read);
-            
-            Logger.DebugFormat("Start MassIssuanceRightDocuments Id - {0}", settings.Id);
-            
-            foreach(var recipient in recipients)
-            {
-                // Выдать права на основную папку
-                SafeExecute(() => AddRightToEntity(folder, settings.LeaveMorePrivilegedRights.Value, recipient, typeRight), issuanceRightsInfo);
-                issuanceRightsInfo.ProcessedFolderEntitiesId.Add(folder.Id);
-                issuanceRightsInfo.FoldersCount++;
-            }
+            Logger.DebugFormat("Start AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}", args.Folder, info.Guid);
             
             
-            SafeExecute(() => AddRightToFolderEntities(folder.Items, typeRight, recipients, settings.GrantRightsFolders.Value, settings.GrantRightsDocuments.Value, settings.ProcessingSubfolders.Value, settings.LeaveMorePrivilegedRights.Value, issuanceRightsInfo), issuanceRightsInfo);
+            // Выдать права на основную папку.
+            AddRightToEntity(info.MainFolder, info);
+            info.ProcessedFoldersId.Add(info.MainFolder.Id);
             
-            Logger.DebugFormat("End MassIssuanceRightDocuments Id - {0}", settings.Id);
+            AddRightToFolderEntities(info.MainFolder.Items, info);
             
-            settings.Status = CustomAdminModule.MassIssuanceRightDocument.Status.Processed;
-            settings.Result = mtg.CustomAdminModule.Resources.MessageResultFormat(issuanceRightsInfo.DocsCount, issuanceRightsInfo.FoldersCount, issuanceRightsInfo.ErrorsCount);
+            info.EndDateTime = Calendar.Now;
             
-            settings.Save();
+            Functions.Module.SendNoteToAdministrators(info);
+            
+            Logger.DebugFormat("End MassIssuanceRightDocuments for folder, Id - {0}, GUID - {1}", args.Folder, info.Guid);
         }
-        
-        /// <summary>
-        /// Безопасное выполнение.
-        /// </summary>
-        /// <param name="action">Action</param>
-        private static void SafeExecute(Action action, Structures.Module.AsyncIssuanceRightsInfo info)
-        {
-            try
-            {
-                action.Invoke();
-            }
-            catch (Exception ex)
-            {
-                Logger.ErrorFormat("AsyncMassRightsError {0}", ex);
-                info.ErrorsCount++;
-            }
-        }
-        
         
         /// <summary>
         /// Выдать права на коллекцию сущностей, только на папки и документы.
         /// </summary>
-        /// <param name="entities">Содерживое папки</param>
-        /// <param name="rightType">Тип Прав</param>
-        /// <param name="grantRightsFolders">true - выдать права на вложенные папки, false - нет</param>
-        /// <param name="grantRightsDocuments">true - выдать права на вложенные документы, false - нет</param>
-        /// <param name="processingSubFolders">true - обработать вложенные папки, false - нет</param>
-        /// <param name="leaveMorePrivilegedRights">true - оставить более привелигированные права</param>
-        /// <param name="info">AsyncIssuanceRightsInfo</param>
-        private static void AddRightToFolderEntities(ICollection<Sungero.Domain.Shared.IEntity> entities, System.Guid rightType, IEnumerable<IRecipient> recipients, bool grantRightsFolders, bool grantRightsDocuments, bool processingSubFolders , bool leaveMorePrivilegedRights, Structures.Module.AsyncIssuanceRightsInfo info)
+        /// <param name="entities">Содержимое папки.</param>
+        /// <param name="info">Информация о выполнении и параметры обработки.</param>
+        private static void AddRightToFolderEntities(ICollection<Sungero.Domain.Shared.IEntity> entities, Structures.Module.AsyncIssuanceRightsInfo info)
         {
             foreach (var entity in entities)
             {
-                var folder = Sungero.CoreEntities.Folders.As(entity);
-                var document = Sungero.Content.ElectronicDocuments.As(entity);
-                
-                // Защита от рекурсии + не обрабатываем entity повторно
-                if (folder != null && info.ProcessedFolderEntitiesId.Contains(entity.Id))
+                try
                 {
-                    continue;
+                    var folder = Sungero.CoreEntities.Folders.As(entity);
+                    var document = Sungero.Content.ElectronicDocuments.As(entity);
+                    
+                    if (folder == null && document == null)
+                        continue;
+                    
+                    if ((folder != null && !info.GrantRightsFolders) || (document != null && !info.GrantRightsDocuments))
+                        continue;
+                    
+                    // Защита от рекурсии + не обрабатываем entity повторно.
+                    if (folder != null && info.ProcessedFoldersId.Contains(entity.Id) || document != null && info.ProcessedDocsId.Contains(entity.Id))
+                        continue;
+                    
+                    AddRightToEntity(entity, info);
+                    
+                    if (folder != null)
+                        info.ProcessedFoldersId.Add(entity.Id);
+                    else
+                        info.ProcessedDocsId.Add(entity.Id);
+                    
+                    if (folder != null && info.ProcessingSubfolders)
+                        AddRightToFolderEntities(folder.Items, info);
                 }
-                
-                if (document != null && info.ProcessedDocEntitiesId.Contains(entity.Id))
+                catch (Exception ex)
                 {
-                    continue;
-                }
-                 
-                
-                if (folder == null && document == null)
-                    continue;
-                
-                if ((folder != null && !grantRightsFolders) || (document != null && !grantRightsDocuments))
-                    continue;
-                
-                foreach (var recipient in recipients)
-                {
-                    SafeExecute(()=> AddRightToEntity(entity, leaveMorePrivilegedRights, recipient, rightType), info);
-                }
-                
-                if (folder != null)
-                {
-                    info.FoldersCount++;
-                    info.ProcessedFolderEntitiesId.Add(entity.Id);
-                }
-                else
-                {
-                    info.DocsCount++;
-                    info.ProcessedDocEntitiesId.Add(entity.Id);
-                }
-                
-                
-                
-                if (folder != null && processingSubFolders)
-                {
-                    SafeExecute(()=> AddRightToFolderEntities(folder.Items, rightType, recipients, grantRightsFolders, grantRightsDocuments, processingSubFolders, leaveMorePrivilegedRights, info), info);
+                    info.ErrorsCount++;
+                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, \nMessage:\n{2}, \nStackTrace:\n{3}", entity.Id , info.Guid, ex.Message, ex.StackTrace);
                 }
             }
         }
@@ -128,30 +93,31 @@ namespace mtg.CustomAdminModule.Server
         /// <summary>
         /// Выдать права субъекту прав.
         /// </summary>
-        /// <param name="entity">Сущность</param>
-        /// <param name="removeOldRights">true - удалить, false - оставить</param>
-        /// <param name="recipient">Субъект прав</param>
-        /// <param name="rightType">Тип прав</param>
-        private static void AddRightToEntity(Sungero.Domain.Shared.IEntity entity, bool leaveMorePrivilegedRights, IRecipient recipient, System.Guid rightType)
+        /// <param name="entity">Сущность.</param>
+        /// <param name="info">Информация о выполнении и параметры обработки.</param>
+        private static void AddRightToEntity(Sungero.Domain.Shared.IEntity entity, Structures.Module.AsyncIssuanceRightsInfo info)
         {
-            if(!leaveMorePrivilegedRights)
+            foreach (var recipient in info.SubjectsOfRights)
             {
-                entity.AccessRights.RevokeAll(recipient);
-                entity.AccessRights.Save();
+                try
+                {
+                    if (info.LeaveMorePrivilegedRights && entity.AccessRights.IsGrantedDirectly(info.RightType, recipient))
+                        continue;
+                    
+                    if (!info.LeaveMorePrivilegedRights)
+                        entity.AccessRights.RevokeAll(recipient);
+                    
+                    entity.AccessRights.Grant(recipient, info.RightType);
+                    entity.AccessRights.Save();
+                    
+                }
+                catch (Exception ex)
+                {
+                    info.ErrorsCount++;
+                    Logger.ErrorFormat("Error AsyncMassIssuanceRightsDocuments for entity, Id - {0}, GUID - {1}, \nMessage:\n{2}, \nStackTrace:\n{3}", entity.Id , info.Guid, ex.StackTrace);
+                }
             }
-            
-            entity.AccessRights.Grant(recipient, rightType);
-            entity.AccessRights.Save();
-            
         }
         
-        /// <summary>
-        /// Направить уведомление Администраторам об резальтаты работы AsyncMassIssuanceRightsDocuments.
-        /// </summary>
-        /// <param name="processedInfo">AsyncIssuanceRightsInfo</param>
-        private static void SendNoteToAdministrators(Structures.Module.AsyncIssuanceRightsInfo processedInfo)
-        {
-            
-        }
     }
 }
