@@ -109,15 +109,21 @@
       "Id": "92491aa6-c4df-4f46-a807-ebdd337bda74",
       "MaxVersion": "",
       "MinVersion": "1.1.0.0"
+    },
+    {
+      "Id": "d8bb255b-db7e-41f3-b1e0-12f9f0348041",
+      "MaxVersion": "",
+      "MinVersion": "0.0.1.0"
     }
   ],
   "ExplorerTreeOrder": [
     {
       "ItemId": "ce90f070-bfe5-4967-80ce-cc976f663798"
+    },
+    {
+      "ItemId": "c612fc41-44a3-428b-a97c-433c333d78e9",
+      "PreviousItemId": "ce90f070-bfe5-4967-80ce-cc976f663798"
     }
-  ],
-  "HandledEvents": [
-    "InitializingServer"
   ],
   "IconResourcesKeys": [],
   "Importance": "Medium",
@@ -166,22 +172,7 @@
   "ServerNamespace": "mtg.CustomAdminModule.Server",
   "SharedAssemblyName": "mtg.CustomAdminModule.Shared",
   "SharedNamespace": "mtg.CustomAdminModule.Shared",
-  "SpecialFolders": [
-    {
-      "NameGuid": "ce90f070-bfe5-4967-80ce-cc976f663798",
-      "Name": "Employee",
-      "DefaultContentType": "b7905516-2be5-4931-961c-cb38d5677565",
-      "DisplayType": "Module",
-      "FilterPanel": {
-        "NameGuid": "e52b6e92-8545-4ce1-af74-9e50af2026b8",
-        "Name": "FilterPanel",
-        "Controls": []
-      },
-      "IsShow": true,
-      "Kind": "Computable",
-      "NeedShowMarkedCount": false
-    }
-  ],
+  "SpecialFolders": [],
   "Version": "0.0.1.0",
   "Widgets": [],
   "Versions": [

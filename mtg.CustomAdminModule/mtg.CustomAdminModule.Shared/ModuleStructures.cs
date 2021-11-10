@@ -11,11 +11,21 @@ namespace mtg.CustomAdminModule.Structures.Module
     /// </summary>
     partial class AsyncIssuanceRightsInfo
     {
+        /// <summary>
+        /// Время начала обработки.
+        /// </summary>
         public DateTime StartDateTime {get; set;}
         
+        /// <summary>
+        /// Время окончания обработки.
+        /// </summary>
         public DateTime EndDateTime {get; set;}
         
+        /// <summary>
+        /// Идентификатор обработки.
+        /// </summary>
         public System.Guid Guid {get; set;}
+        
         /// <summary>
         /// id инициатора.
         /// </summary>
@@ -36,10 +46,13 @@ namespace mtg.CustomAdminModule.Structures.Module
         /// </summary>
         public List<int> ProcessedDocsId {get; set;}
         
+        /// <summary>
+        /// Наименование типа прав.
+        /// </summary>
         public string RightTypeName {get; set;}
         
         /// <summary>
-        /// Тип прав.
+        /// Тип прав(Guid).
         /// </summary>
         public System.Guid RightType {get; set;}
         
